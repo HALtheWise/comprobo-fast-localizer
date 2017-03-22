@@ -1,9 +1,14 @@
+from __future__ import print_function
+
 import rosbag
 import os
 import pickle
 
+import sys
+ 
+
 def build_camera_position_and_cloud(bag):
-    data = sorted(bag.read_messages(topic=['/tango_pose', '/point_cloud']),
+    data = sorted(bag.read_messages(topics=['/tango_pose', '/point_cloud']),
                   key = lambda x: x[2]) #Sort by time
     assoc = []
     for i, msg in enumerate(data):
@@ -25,11 +30,12 @@ def build_camera_position_and_cloud(bag):
     return assoc
 
 if __name__ == "__main__":
-    bags = [x for x in os.listdir(".") if x.endswith(".bag")] #argparse here
-    for bname in bags:
-        bag = rosbag.Bag(bname, 'r')
-        assoc = build_camera_position_and_cloud(bag)
-        with open(bname+".pcl-camera.pickle", 'a') as f:
-            pickle.dump(assoc, f)
+    bname = sys.argv[1]
+    #bags = [x for x in os.listdir(".") if x.endswith(".bag")] #argparse here
+    print(bname)
+    bag = rosbag.Bag(bname, 'r')
+    assoc = build_camera_position_and_cloud(bag)
+    with open(bname+".pcl-camera.pickle", 'w') as f:
+        pickle.dump(assoc, f)
 
 
