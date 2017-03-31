@@ -1,6 +1,7 @@
 class Color(object):
     def __init__(self, minimum, maximum, colorspace='HSV'):
         if colorspace != 'HSV':
+            # TODO: allow black and white color space
             raise Exception("Invalid colorspace, only HSV supported")
 
         self.min = minimum

@@ -27,6 +27,10 @@ class Circle2D(object):
         cv2.circle(img, tuple(self.center), self.radius, drawColor, thickness=5)
         cv2.circle(img, tuple(self.center), 5, drawColor, thickness=-1)
 
+    def distance(self, point):
+        point = np.array(point)
+        return np.linalg.norm(point - self.center)
+
     def refine(self, image, verbose=False, searchRange=200):
         """
         Taking in an Image object, updates this feature to better align
@@ -78,3 +82,9 @@ class Circle2D(object):
 
         ## Calculate the radius
         self.radius = int(np.linalg.norm(topPoint - bottomPoint) / 2)
+
+    def __repr__(self):
+        return 'Circle(center={}, radius={})'.format(
+            self.center,
+            self.radius
+        )

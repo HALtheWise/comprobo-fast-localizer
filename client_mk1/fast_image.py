@@ -1,6 +1,5 @@
 import cv2
 
-
 class Image(object):
     def __init__(self, img):
         self.img = img
@@ -18,3 +17,4 @@ class Image(object):
         color = (0, 0, 255)
         for p in self.pixelsAccessed:
             img[p[1], p[0]] = color
+
