@@ -11,8 +11,8 @@ class Circle2D(object):
     """
 
     def __init__(self, center, radius, colorRange):
-        self.center = np.array(center, dtype=np.int16)
-        self.radius = int(radius)
+        self.center = np.array(center)
+        self.radius = radius
         self.color = colorRange
 
         # TODO: this should be a scalar with more reasonable behavior
@@ -24,8 +24,8 @@ class Circle2D(object):
         draws a visual debugging indication of this feature
         """
         drawColor = (128, 255, 0) if self.confidence else (0, 0, 255)
-        cv2.circle(img, tuple(self.center), self.radius, drawColor, thickness=5)
-        cv2.circle(img, tuple(self.center), 5, drawColor, thickness=-1)
+        cv2.circle(img, tuple(map(int, self.center)), int(self.radius), drawColor, thickness=5)
+        cv2.circle(img, tuple(map(int, self.center)), 5, drawColor, thickness=-1)
 
     def distance(self, point):
         point = np.array(point)
