@@ -11,8 +11,8 @@ class Circle2D(object):
     """
 
     def __init__(self, center, radius, colorRange):
-        self.center = np.array(center)
-        self.radius = radius
+        self.center = np.array(center, dtype=np.int16)
+        self.radius = int(radius)
         self.color = colorRange
 
         # TODO: this should be a scalar with more reasonable behavior
