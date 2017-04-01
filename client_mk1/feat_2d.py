@@ -59,29 +59,35 @@ class Circle2D(object):
 
         ## Find the x-coordinate of the center of the circle
 
-        left = np.array((-1, 0))
-        leftPoint = do_binary_search(image, self.color,
-                                     self.center, self.center - maxDist * left)
+        try:
+            left = np.array((-1, 0))
+            leftPoint = do_binary_search(image, self.color,
+                                         self.center, self.center - maxDist * left)
 
-        right = np.array((1, 0))
-        rightPoint = do_binary_search(image, self.color,
-                                      self.center, self.center - maxDist * right)
+            right = np.array((1, 0))
+            rightPoint = do_binary_search(image, self.color,
+                                          self.center, self.center - maxDist * right)
 
-        self.center = np.array((leftPoint + rightPoint) / 2, dtype=np.int32)
+            self.center = np.array((leftPoint + rightPoint) / 2, dtype=np.int32)
 
-        ## Find the y-coordinate of the center
-        up = np.array((0, 1))
-        topPoint = do_binary_search(image, self.color,
-                                    self.center, self.center - maxDist * up)
+            ## Find the y-coordinate of the center
+            up = np.array((0, 1))
+            topPoint = do_binary_search(image, self.color,
+                                        self.center, self.center - maxDist * up)
 
-        down = np.array((0, -1))
-        bottomPoint = do_binary_search(image, self.color,
-                                       self.center, self.center - maxDist * down)
+            down = np.array((0, -1))
+            bottomPoint = do_binary_search(image, self.color,
+                                           self.center, self.center - maxDist * down)
 
-        self.center = np.array((topPoint + bottomPoint) / 2, dtype=np.int32)
+            self.center = np.array((topPoint + bottomPoint) / 2, dtype=np.int32)
 
-        ## Calculate the radius
-        self.radius = int(np.linalg.norm(topPoint - bottomPoint) / 2)
+            ## Calculate the radius
+            self.radius = int(np.linalg.norm(topPoint - bottomPoint) / 2)
+
+        except IndexError:
+            self.confidence = False
+            if verbose:
+                print "Index out of bounds of image"
 
     def __repr__(self):
         return 'Circle(center={}, radius={})'.format(

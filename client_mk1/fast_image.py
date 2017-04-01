@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 
 class Image(object):
     def __init__(self, img):
@@ -11,6 +12,10 @@ class Image(object):
         self.pixelsAccessed.append((x, y))
         rgb = self.img[y:y + 1, x:x + 1]
         hsv = cv2.cvtColor(rgb, cv2.COLOR_BGR2HSV)
+
+        if hsv is None:
+            raise IndexError
+
         return hsv[0, 0]
 
     def draw(self, img):

@@ -13,6 +13,7 @@ def do_linear_search(image, color, start, end,
     Returns a np array of the coordinates of the transition found
     """
     end = np.array(end)
+
     start = np.array(start)
     if num_steps is None:
         num_steps = max(np.abs(end - start))
