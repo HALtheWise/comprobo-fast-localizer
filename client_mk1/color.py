@@ -1,9 +1,13 @@
+import numpy as np
+
 class Color(object):
-    def __init__(self, minimum, maximum, colorspace='HSV'):
+    def __init__(self, val, tol=10, colorspace='HSV'):
         if colorspace != 'HSV':
             # TODO: allow black and white color space
             raise Exception("Invalid colorspace, only HSV supported")
-
+        
+        minimum = np.array(val) - tol
+        maximum = np.array(val) + tol
         self.min = minimum
         self.max = maximum
 
