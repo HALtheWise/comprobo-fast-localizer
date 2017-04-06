@@ -1,10 +1,15 @@
 import cv2
-import numpy as np
+
 
 class Image(object):
+    """
+    Image is an object that allows lazy access to pixel data
+    while tracking statistics about which pixels have been accessed.
+    """
+    pixelsAccessed = []
+
     def __init__(self, img):
         self.img = img
-        self.pixelsAccessed = []
 
     def getHSV(self, x, y):
         x = int(x)
@@ -20,6 +25,14 @@ class Image(object):
         return hsv[0, 0]
 
     def draw(self, img):
+        """
+        Colors the accessed pixels red in an image, intended for visualization
+        purposes.
+        Args:
+            img (np.array): an image to draw on
+        Returns:
+            None
+        """
         color = (0, 0, 255)
         for p in self.pixelsAccessed:
             try:
