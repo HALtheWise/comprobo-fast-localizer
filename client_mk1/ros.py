@@ -7,7 +7,7 @@ from geometry_msgs.msg import PoseStamped, Pose, Vector3, Quaternion
 from std_msgs.msg import Header
 
 
-class ros_handler(object):
+class RosHandler(object):
     def __init__(self):
         rospy.init_node('fast_localization_client')
         try:
