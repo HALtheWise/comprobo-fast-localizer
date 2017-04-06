@@ -6,10 +6,10 @@ class Image(object):
     Image is an object that allows lazy access to pixel data
     while tracking statistics about which pixels have been accessed.
     """
-    pixelsAccessed = []
 
     def __init__(self, img):
         self.img = img
+        self.pixelsAccessed = []
 
     def getHSV(self, x, y):
         x = int(x)

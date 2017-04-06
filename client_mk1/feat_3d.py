@@ -1,7 +1,7 @@
 import numpy as np
 
-from client_mk1.feat_2d import Circle2D
-from client_mk1.calibration import camera
+from feat_2d import Circle2D
+from calibration import camera
 
 
 class Sphere3D(object):
