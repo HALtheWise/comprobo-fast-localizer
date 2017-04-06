@@ -23,13 +23,18 @@ class Circle2D(object):
         Taking in a numpy array representing an OpenCV image,
         draws a visual debugging indication of this feature
         """
-        drawColor = (128, 255, 0) if self.confidence else (0, 0, 255)
-        cv2.circle(img, tuple(map(int, self.center)), int(self.radius), drawColor, thickness=5)
-        cv2.circle(img, tuple(map(int, self.center)), 5, drawColor, thickness=-1)
+        try:
+            drawColor = (128, 255, 0) if self.confidence else (0, 0, 255)
+            cv2.circle(img, tuple(map(int, self.center)), int(self.radius), drawColor, thickness=5)
+            cv2.circle(img, tuple(map(int, self.center)), 5, drawColor, thickness=-1)
+
+        except IndexError:
+            # Cannot draw features living outside the frame
+            pass
 
     def distance(self, point):
         point = np.array(point)
-        return np.linalg.norm(point - self.center)
+        return point - self.center
 
     def refine(self, image, verbose=False, searchRange=200):
         """
@@ -43,23 +48,23 @@ class Circle2D(object):
         def matchesAt(x, y):
             return self.color.matches(image.getHSV(x, y))
 
-        if matchesAt(*self.center):
-            self.confidence = True
-
-        else:
-            self.confidence = False
-            if verbose:
-                print "Center point color is {}".format(
-                    image.getHSV(*self.center))
-            return
-
-        # NOISE_DIST = 3
-
-        maxDist = searchRange + self.radius
-
-        ## Find the x-coordinate of the center of the circle
-
         try:
+            if matchesAt(*self.center):
+                self.confidence = True
+
+            else:
+                self.confidence = False
+                if verbose:
+                    print "Center point color is {}".format(
+                        image.getHSV(*self.center))
+                return
+
+            # NOISE_DIST = 3
+
+            maxDist = searchRange + self.radius
+
+            ## Find the x-coordinate of the center of the circle
+
             left = np.array((-1, 0))
             leftPoint = do_binary_search(image, self.color,
                                          self.center, self.center - maxDist * left)

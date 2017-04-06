@@ -9,9 +9,10 @@ class Image(object):
     def getHSV(self, x, y):
         x = int(x)
         y = int(y)
-        self.pixelsAccessed.append((x, y))
         rgb = self.img[y:y + 1, x:x + 1]
         hsv = cv2.cvtColor(rgb, cv2.COLOR_BGR2HSV)
+
+        self.pixelsAccessed.append((x, y))
 
         if hsv is None:
             raise IndexError
@@ -21,5 +22,9 @@ class Image(object):
     def draw(self, img):
         color = (0, 0, 255)
         for p in self.pixelsAccessed:
-            img[p[1], p[0]] = color
+            try:
+                img[p[1], p[0]] = color
+            except IndexError:
+                # Out of bounds
+                pass
 
